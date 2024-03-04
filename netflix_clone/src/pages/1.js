@@ -126,7 +126,7 @@ function First() {
                     >
                         {movies.map((data) => {
                             return<>
-                            {console.log(data)}
+                            
                             <SwiperSlide>
                                 <div class="card" onClick={() => handleView(data.id, 'm')}>
                                     <img src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} class="img-fluid" />
