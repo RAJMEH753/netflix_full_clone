@@ -3,16 +3,6 @@ import React, { useEffect, useState } from "react";
 // YouTube Video
 import YouTube from "react-youtube";
 
-// importing components from react-router-dom package
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Navigate,
-    useParams,
-    useLocation,
-} from "react-router-dom";
-
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -32,6 +22,7 @@ function Third() {
 
     const queryParams = new URLSearchParams(window.location.search);
     const id = queryParams.get("details");
+    const type = queryParams.get("type");
 
     const getMovies = async() => {
         try{
@@ -43,9 +34,17 @@ function Third() {
         }        
     }
 
+    var Mediatype
     const getVideo = async() => {
         try{
-            await fetch("https://api.themoviedb.org/3/movie/"+ id +"?&append_to_response=videos&api_key=ac6c2275c02f1a8d534daeedfcb0eea7")
+            if(type == 'm'){
+                Mediatype = 'movie';
+            }else if(type == 't'){
+                Mediatype = 'tv';
+            }else{
+                Mediatype = 0;
+            }
+            await fetch("https://api.themoviedb.org/3/"+ Mediatype +"/"+ id +"?&append_to_response=videos&api_key=ac6c2275c02f1a8d534daeedfcb0eea7")
             .then(res => res.json())
             .then(json => setVideo(json.videos.results[0]))
         }catch(err){
@@ -141,7 +140,7 @@ function Third() {
             </div>
 
             {/*<!-- Section-01 -->*/}
-            <div class="mx-5 section">
+            <div class="mx-2 my-4 section">
                 
                 <h3 class="text-light">
                     Most Popular
@@ -169,7 +168,7 @@ function Third() {
             </div>
 
             {/*<!-- Section-02 -->*/}
-            <div className="mx-5 my-5 section">
+            <div className="mx-2 my-4 section">
                 
                 <h3 className="text-light">
                     Most Popular
