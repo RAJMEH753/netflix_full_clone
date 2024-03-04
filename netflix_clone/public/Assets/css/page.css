@@ -59,6 +59,7 @@
 
 .cover {
     background: url(https://assets.nflxext.com/ffe/siteui/acquisition/login/login-the-crown_2-1500x1000.jpg) -81% -4%;
+    height: 100vh;
 }
 
 /* Page - 02 */
@@ -80,7 +81,7 @@
 /* Page - 03 */
 .playground {
     height: 70vh;
-    border: 1px solid blueviolet;
+
 }
 
 .amru {
