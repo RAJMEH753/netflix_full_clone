@@ -51,7 +51,7 @@ function Second() {
             }else{
                 Mediatype = 0;
             }
-            await fetch("https://api.themoviedb.org/3/"+ Mediatype +"/"+ id +"?api_key=ac6c2275c02f1a8d534daeedfcb0eea7")
+            await fetch("https://api.themoviedb.org/3/"+ Mediatype +"/"+ id +"?&append_to_response=videos&api_key=ac6c2275c02f1a8d534daeedfcb0eea7")
             .then(res => res.json())
             .then(json => setDetails(json))
         }catch(err){
@@ -130,7 +130,7 @@ function Second() {
                 <img src={`https://image.tmdb.org/t/p/w500/${details.backdrop_path}`} class="h-100 float-end img" />
             </div>
             <div class="position-absolute z-3 w-100 ms-0 my-5 p-5 content_banner">
-                    
+                    {console.log(details)}
                     <div class="ms-5">
                         <h1 class="text-light">
                             {   type == 'm'?
@@ -142,10 +142,18 @@ function Second() {
                         <p class="text-light w-50 my-4">
                             {details.overview}
                         </p>
-                        <button class="btn btn-light fw-bold px-4 fs-5 mt-4" onClick={() => handleVideo(details.id, type)}>
-                            <i class="bi bi-play-fill"></i>
-                            Play
-                        </button>
+                        {   details.videos?.results?.length > 0 ?
+                                <button class="btn btn-light fw-bold px-4 fs-5 mt-4" onClick={() => handleVideo(details.id, type)}>
+                                <i class="bi bi-play-fill"></i>
+                                    Play
+                                </button>
+                            :
+                                <button class="btn btn-secondary fw-bold px-4 fs-5 mt-4 visually-hidden" disabled>
+                                <i class="bi bi-play-fill"></i>
+                                   Play
+                                </button>
+                        }
+                        
                         <button class="btn btn-dark fw-bold ms-2 px-4 fs-5 py-2 mt-4">More info</button>
                     </div>
 
