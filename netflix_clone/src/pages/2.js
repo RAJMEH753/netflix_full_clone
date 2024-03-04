@@ -29,6 +29,7 @@ function Second() {
 
     const queryParams = new URLSearchParams(window.location.search);
     const id = queryParams.get("details");
+    const type = queryParams.get("type");
 
     const getMovies = async() => {
         try{
@@ -40,9 +41,17 @@ function Second() {
         }        
     }
 
+    var Mediatype
     const getDetails = async() => {
         try{
-            await fetch("https://api.themoviedb.org/3/movie/"+ id +"?api_key=ac6c2275c02f1a8d534daeedfcb0eea7")
+            if(type == 'm'){
+                Mediatype = 'movie';
+            }else if(type == 't'){
+                Mediatype = 'tv';
+            }else{
+                Mediatype = 0;
+            }
+            await fetch("https://api.themoviedb.org/3/"+ Mediatype +"/"+ id +"?api_key=ac6c2275c02f1a8d534daeedfcb0eea7")
             .then(res => res.json())
             .then(json => setDetails(json))
         }catch(err){
@@ -55,12 +64,12 @@ function Second() {
         getDetails()
     }, [])
 
-    function handleView(id) {
-        window.location.replace(`/about?details=${id}`);
+    function handleView(id, ty) {
+        window.location.replace(`/about?details=${id}&type=${ty}`);
     }
 
-    function handleVideo(vid) {
-        window.location.replace(`/video?details=${vid}`);
+    function handleVideo(vid, ty) {
+        window.location.replace(`/video?details=${vid}&type=${ty}`);
     }
     
     return (
@@ -117,17 +126,23 @@ function Second() {
             </nav>
 
             {/*<!-- Section-00 -->*/}
-            <div class="position-relative height_60">
+            <div class="position-relative height_60 overflow-hidden">
                 <img src={`https://image.tmdb.org/t/p/w500/${details.backdrop_path}`} class="h-100 float-end img" />
             </div>
             <div class="position-absolute z-3 w-100 ms-0 my-5 p-5 content_banner">
-
+                    
                     <div class="ms-5">
-                        <h1 class="text-light">{details.original_title}</h1>
+                        <h1 class="text-light">
+                            {   type == 'm'?
+                                   details.original_title
+                                :
+                                    details.original_name
+                            }
+                        </h1>
                         <p class="text-light w-50 my-4">
                             {details.overview}
                         </p>
-                        <button class="btn btn-light fw-bold px-4 fs-5 mt-4" onClick={() => handleVideo(details.id)}>
+                        <button class="btn btn-light fw-bold px-4 fs-5 mt-4" onClick={() => handleVideo(details.id, type)}>
                             <i class="bi bi-play-fill"></i>
                             Play
                         </button>
@@ -155,7 +170,7 @@ function Second() {
                         {movies.map((data) => {
                             return<>                   
                             <SwiperSlide>
-                                <div class="card" onClick={() => handleView(data.id)}>
+                                <div class="card" onClick={() => handleView(data.id, 'm')}>
                                     <img src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} class="img-fluid" />
                                 </div>
                             </SwiperSlide>
@@ -183,7 +198,7 @@ function Second() {
                         {movies.map((data) => {
                             return<>                   
                             <SwiperSlide>
-                                <div class="card">
+                                <div class="card" onClick={() => handleView(data.id, type)}>
                                     <img src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} class="img-fluid" />
                                 </div>
                             </SwiperSlide>
