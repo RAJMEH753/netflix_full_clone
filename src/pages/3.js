@@ -3,16 +3,6 @@ import React, { useEffect, useState } from "react";
 // YouTube Video
 import YouTube from "react-youtube";
 
-// importing components from react-router-dom package
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Navigate,
-    useParams,
-    useLocation,
-} from "react-router-dom";
-
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
